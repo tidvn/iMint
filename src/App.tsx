@@ -5,34 +5,24 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useFonts, Inter_900Black } from "@expo-google-fonts/dev";
+import './styles.css';
 
-import { ExamplesScreens } from "./screens/ExamplesScreen";
 import { HomeScreen } from "./screens/HomeScreen";
-import { TokenListNavigator } from "./screens/TokenNavigator";
-import { GenerateNavigator } from './screens/GenerateScreen';
+import { Frame2 } from "./screens/Frame2";
+import { Frame3 } from "./screens/Frame3";
+import { Frame4 } from "./screens/Frame4";
+
 
 const Tab = createBottomTabNavigator();
 
 function TabNavigator() {
   return (
-    
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{
         tabBarActiveTintColor: "#e91e63",
       }}
     >
-      <Tab.Screen
-        name="Generate"
-        component={GenerateNavigator}
-        options={{
-          headerShown: false,
-          tabBarLabel: "Generate",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account" color={color} size={size} />
-          ),
-        }}
-      />
       <Tab.Screen
         name="Home"
         component={HomeScreen}
@@ -43,22 +33,32 @@ function TabNavigator() {
           ),
         }}
       />
+
       <Tab.Screen
-        name="List"
-        component={TokenListNavigator}
+        name="Frame2"
+        component={Frame2}
         options={{
-          headerShown: false,
-          tabBarLabel: "Tokens",
+          tabBarLabel: "Frame2",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="bank" color={color} size={size} />
           ),
         }}
       />
       <Tab.Screen
-        name="Examples"
-        component={ExamplesScreens}
+        name="Frame3"
+        component={Frame3}
         options={{
-          tabBarLabel: "Examples",
+          tabBarLabel: "Frame3",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="bank" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Frame4"
+        component={Frame4}
+        options={{
+          tabBarLabel: "Frame4",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
           ),
@@ -72,7 +72,7 @@ function App() {
   let [fontsLoaded] = useFonts({
     Inter_900Black,
   });
- 
+
   if (!fontsLoaded) {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -82,13 +82,11 @@ function App() {
   }
 
   return (
-    
     <RecoilRoot>
       <NavigationContainer>
         <TabNavigator />
       </NavigationContainer>
     </RecoilRoot>
-   
   );
 }
 
