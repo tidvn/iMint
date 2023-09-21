@@ -15,6 +15,7 @@ const Tab = createBottomTabNavigator();
 
 function TabNavigator() {
   return (
+    
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{
@@ -71,7 +72,7 @@ function App() {
   let [fontsLoaded] = useFonts({
     Inter_900Black,
   });
-
+ 
   if (!fontsLoaded) {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -81,11 +82,13 @@ function App() {
   }
 
   return (
+    
     <RecoilRoot>
       <NavigationContainer>
         <TabNavigator />
       </NavigationContainer>
     </RecoilRoot>
+   
   );
 }
 

@@ -118,6 +118,7 @@ function ResultsScreen({ route, navigation }: NativeStackScreenProps<RootStackPa
 }
 
 export const GenerateNavigator = () => {
+    
     return (
         <Stack.Navigator>
             <Stack.Screen
