@@ -15,6 +15,7 @@ type RootStackParamList = {
   GenerateScreen: {};
   ResultsScreen: { prompt: string };
   MintScreen: {};
+  ShareScreen: {};
 };
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -167,6 +168,29 @@ function MintScreen({
   );
 }
 
+function ShareScreen({
+  route,
+  navigation,
+}: NativeStackScreenProps<RootStackParamList, "ShareScreen">) {
+
+  const handleShare = () => {
+
+  }
+
+  return (
+    <View>
+      {/* <image></image> */}
+      <Text variant="headlineSmall">Mint sucessful</Text>
+      <Text variant="titleLarge">Share your NFT on Twitter</Text>
+      <div>
+        <Button icon="twitter" mode="contained" onPress={handleShare}>
+          Share
+        </Button>
+      </div>
+    </View>
+  );
+}
+
 export const GenerateNavigator = () => {
   return (
     <Stack.Navigator>
@@ -184,6 +208,11 @@ export const GenerateNavigator = () => {
         name="MintScreen"
         component={MintScreen}
         options={{ title: "Mint" }}
+      />
+      <Stack.Screen
+        name="ShareScreen"
+        component={ShareScreen}
+        options={{ title: "Share" }}
       />
     </Stack.Navigator>
   );
