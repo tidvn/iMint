@@ -14,6 +14,7 @@ import { generate } from "fast-glob/out/managers/tasks";
 type RootStackParamList = {
   GenerateScreen: {};
   ResultsScreen: { prompt: string };
+  MintScreen: {};
 };
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -51,6 +52,10 @@ function ResultsScreen({
   route,
   navigation,
 }: NativeStackScreenProps<RootStackParamList, "ResultsScreen">) {
+  const handleNext = () => {
+    navigation.push("MintScreen", {});
+  };
+
   const { prompt } = route.params;
   const [imageUrl, setImageUrl] = useState<string>(""); // Lưu trữ đường dẫn hình ảnh
   const [loading, setLoading] = useState<boolean>(false);
@@ -89,8 +94,6 @@ function ResultsScreen({
     fetchData();
   };
 
-  const handleChoose = () => {};
-
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       {loading ? (
@@ -106,7 +109,7 @@ function ResultsScreen({
               flexDirection: "row",
               justifyContent: "space-between",
               marginTop: 30,
-              gap: 10
+              gap: 10,
             }}
           >
             <Button icon="reload" mode="outlined" onPress={handleReGenerate}>
@@ -116,6 +119,50 @@ function ResultsScreen({
           </View>
         </>
       )}
+    </View>
+  );
+}
+
+function MintScreen({
+  route,
+  navigation,
+}: NativeStackScreenProps<RootStackParamList, "MintScreen">) {
+  const [metadata, setMetadata] = useState({
+    name: "",
+    description: "",
+    tag: "",
+  });
+
+  const handleFinish = () => {};
+
+  return (
+    <View>
+      {/* <image></image> */}
+      <Text variant="titleMedium">Provide information to complete</Text>
+      <TextInput
+        style={{ marginBottom: 5 }}
+        mode="outlined"
+        label="Name"
+        value={metadata.name}
+        onChangeText={(e) => setMetadata({ ...metadata, name: e })}
+      />
+      <TextInput
+        style={{ marginBottom: 5 }}
+        mode="outlined"
+        label="Name"
+        value={metadata.description}
+        onChangeText={(e) => setMetadata({ ...metadata, description: e })}
+      />
+      <TextInput
+        style={{ marginBottom: 15 }}
+        mode="outlined"
+        label="Tag"
+        value={metadata.tag}
+        onChangeText={(e) => setMetadata({ ...metadata, tag: e })}
+      />
+      <Button icon="check" mode="contained" onPress={handleFinish}>
+        Generate
+      </Button>
     </View>
   );
 }
@@ -132,6 +179,11 @@ export const GenerateNavigator = () => {
         name="ResultsScreen"
         component={ResultsScreen}
         options={{ title: "Result" }}
+      />
+      <Stack.Screen
+        name="MintScreen"
+        component={MintScreen}
+        options={{ title: "Mint" }}
       />
     </Stack.Navigator>
   );
