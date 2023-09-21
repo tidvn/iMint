@@ -16,18 +16,17 @@ export function HomeScreen() {
 
   return (
     <Screen>
-      <Box className="main-container" sx={{m: 5}}>
+      <Box className="main-container" sx={{m: 1}}>
         <TextField
           required
           label="Describe"
           multiline
           rows={4}
-          variant="filled"
-          onChange={(newText: React.ChangeEvent<HTMLInputElement>) =>
-            setText(newText.target.value)
+          variant="outlined"
+          onChange={(newText) => setText(newText.target.value)
           }
+          margin="normal"
           fullWidth
-          sx={{m: 3}}
         />
 
         <Button onClick={handleGenerate} variant="contained">
