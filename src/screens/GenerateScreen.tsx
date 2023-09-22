@@ -14,7 +14,7 @@ import { generate } from "fast-glob/out/managers/tasks";
 type RootStackParamList = {
   GenerateScreen: {};
   ResultsScreen: { prompt: string };
-  MintScreen: {};
+  MintScreen: { imageUrl: string };
   ShareScreen: {};
 };
 const Stack = createStackNavigator<RootStackParamList>();
@@ -53,7 +53,7 @@ function ResultsScreen({
   navigation,
 }: NativeStackScreenProps<RootStackParamList, "ResultsScreen">) {
   const handleNext = () => {
-    navigation.push("MintScreen", {});
+    navigation.push("MintScreen", { imageUrl: imageUrl });
   };
 
   const { prompt } = route.params;
@@ -130,19 +130,26 @@ function MintScreen({
   route,
   navigation,
 }: NativeStackScreenProps<RootStackParamList, "MintScreen">) {
+  const { imageUrl } = route.params;
+  
   const [metadata, setMetadata] = useState({
     name: "",
     description: "",
     tag: "",
   });
 
-  const handleFinish = () => {};
+  const handleFinish = () => {
+    
+  };
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", padding: 16 }}>
+    <View style={{ flex: 1, justifyContent: "center", padding: 16}}>
+      <View style={{alignItems: "center"}}>
+      <Image source={{ uri: imageUrl }} style={{ width: 180, height: 180 }} />
       <Text variant="titleMedium">Provide information to complete</Text>
+      </View>
       <TextInput
-        style={{ marginBottom: 10, marginTop: 15 }}
+        style={{ marginBottom: 10, marginTop: 5 }}
         mode="outlined"
         label="Name"
         value={metadata.name}
@@ -151,6 +158,8 @@ function MintScreen({
       <TextInput
         style={{ marginBottom: 10 }}
         mode="outlined"
+        multiline
+        numberOfLines={3}
         label="Description"
         value={metadata.description}
         onChangeText={(e) => setMetadata({ ...metadata, description: e })}
@@ -163,7 +172,7 @@ function MintScreen({
         onChangeText={(e) => setMetadata({ ...metadata, tag: e })}
       />
       <Button icon="check" mode="contained" onPress={handleFinish}>
-        Generate
+        Mint
       </Button>
     </View>
   );
@@ -173,16 +182,17 @@ function ShareScreen({
   route,
   navigation,
 }: NativeStackScreenProps<RootStackParamList, "ShareScreen">) {
-
-  const handleShare = () => {
-
-  }
+  const handleShare = () => {};
 
   return (
     <View style={{ flex: 1, justifyContent: "center", padding: 16 }}>
       {/* <image></image> */}
-      <Text style={{marginBottom: 15}} variant="headlineSmall">Mint sucessful</Text>
-      <Text style={{marginBottom: 10}} variant="titleLarge">Share your NFT on Twitter</Text>
+      <Text style={{ marginBottom: 15 }} variant="headlineSmall">
+        Mint sucessful
+      </Text>
+      <Text style={{ marginBottom: 10 }} variant="titleLarge">
+        Share your NFT on Twitter
+      </Text>
       <div>
         <Button icon="twitter" mode="contained" onPress={handleShare}>
           Share
