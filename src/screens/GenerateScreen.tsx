@@ -36,8 +36,7 @@ function GenerateScreen({
         }}
         multiline
         mode="outlined"
-        placeholder="Type something interesting"
-        label="generate promp"
+        label="Type something interesting"
         numberOfLines={4}
         value={inputText}
         onChangeText={(text) => setInputText(text)}
@@ -116,7 +115,10 @@ function ResultsScreen({
             <Button icon="reload" mode="outlined" onPress={handleReGenerate}>
               Re-Generate
             </Button>
-            <MintButton />
+            <Button icon="reload" mode="outlined" onPress={handleNext}>
+              Continue
+            </Button>
+            {/* <MintButton /> */}
           </View>
         </>
       )}
@@ -138,7 +140,6 @@ function MintScreen({
 
   return (
     <View>
-      {/* <image></image> */}
       <Text variant="titleMedium">Provide information to complete</Text>
       <TextInput
         style={{ marginBottom: 5 }}

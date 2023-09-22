@@ -7,6 +7,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useFonts, Inter_900Black } from "@expo-google-fonts/dev";
 
 import { GenerateNavigator } from './screens/GenerateScreen';
+import { HomeScreen } from "./screens/HomeScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -19,6 +20,17 @@ function TabNavigator() {
         tabBarActiveTintColor: "#e91e63",
       }}
     >
+      
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarLabel: "Home",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="home-variant-outline" color={color} size={size} />
+          ),
+        }}
+      />
       <Tab.Screen
         name="Generate"
         component={GenerateNavigator}
@@ -26,7 +38,7 @@ function TabNavigator() {
           headerShown: false,
           tabBarLabel: "Generate",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account" color={color} size={size} />
+            <MaterialCommunityIcons name="tree" color={color} size={size} />
           ),
         }}
       />
