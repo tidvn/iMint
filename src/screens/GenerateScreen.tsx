@@ -15,7 +15,7 @@ type RootStackParamList = {
   GenerateScreen: {};
   ResultsScreen: { prompt: string };
   MintScreen: { imageUrl: string };
-  ShareScreen: {};
+  ShareScreen: { imageUrl: string };
 };
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -139,7 +139,7 @@ function MintScreen({
   });
 
   const handleFinish = () => {
-    
+    navigation.push("ShareScreen", { imageUrl: imageUrl });
   };
 
   return (
@@ -182,11 +182,14 @@ function ShareScreen({
   route,
   navigation,
 }: NativeStackScreenProps<RootStackParamList, "ShareScreen">) {
+  const { imageUrl } = route.params;
+
   const handleShare = () => {};
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", padding: 16 }}>
-      {/* <image></image> */}
+    <View style={{ flex: 1, justifyContent: "center", padding: 16, alignItems: "center" }}>
+      <Image source={{ uri: imageUrl }} style={{ width: 200, height: 200 }} />
+
       <Text style={{ marginBottom: 15 }} variant="headlineSmall">
         Mint sucessful
       </Text>
