@@ -115,7 +115,7 @@ function ResultsScreen({
             <Button icon="reload" mode="outlined" onPress={handleReGenerate}>
               Re-Generate
             </Button>
-            <Button icon="reload" mode="outlined" onPress={handleNext}>
+            <Button icon="arrow-right" mode="contained" onPress={handleNext}>
               Continue
             </Button>
             {/* <MintButton /> */}
@@ -139,19 +139,19 @@ function MintScreen({
   const handleFinish = () => {};
 
   return (
-    <View>
+    <View style={{ flex: 1, justifyContent: "center", padding: 16 }}>
       <Text variant="titleMedium">Provide information to complete</Text>
       <TextInput
-        style={{ marginBottom: 5 }}
+        style={{ marginBottom: 10, marginTop: 15 }}
         mode="outlined"
         label="Name"
         value={metadata.name}
         onChangeText={(e) => setMetadata({ ...metadata, name: e })}
       />
       <TextInput
-        style={{ marginBottom: 5 }}
+        style={{ marginBottom: 10 }}
         mode="outlined"
-        label="Name"
+        label="Description"
         value={metadata.description}
         onChangeText={(e) => setMetadata({ ...metadata, description: e })}
       />
@@ -179,10 +179,10 @@ function ShareScreen({
   }
 
   return (
-    <View>
+    <View style={{ flex: 1, justifyContent: "center", padding: 16 }}>
       {/* <image></image> */}
-      <Text variant="headlineSmall">Mint sucessful</Text>
-      <Text variant="titleLarge">Share your NFT on Twitter</Text>
+      <Text style={{marginBottom: 15}} variant="headlineSmall">Mint sucessful</Text>
+      <Text style={{marginBottom: 10}} variant="titleLarge">Share your NFT on Twitter</Text>
       <div>
         <Button icon="twitter" mode="contained" onPress={handleShare}>
           Share
