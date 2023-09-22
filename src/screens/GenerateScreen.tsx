@@ -148,14 +148,8 @@ function MintScreen({
       if (blob.status !== 200) {
         throw new Error(`Failed to fetch image with status: ${blob.status}`);
       }
-
-      // Create a Blob from the response data
       const imageBlob = new Blob([blob.data]);
-
-      // Create a File object from the Blob
       const imageFile = new File([imageBlob], 'image.jpg', { type: 'image/jpeg' });
-        
-
       var formdata = new FormData();
       formdata.append("file", imageFile, "mintImage.jpeg");
 
@@ -223,6 +217,9 @@ function MintScreen({
         }
       );
       console.log(response);
+      if (response.data.success) {
+        navigation.push("ShareScreen", {});
+      }
     } catch(error) {
       console.error("Error mint nft:", error);
     } finally {
