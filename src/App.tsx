@@ -6,8 +6,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useFonts, Inter_900Black } from "@expo-google-fonts/dev";
 
-import { GenerateNavigator } from './screens/GenerateScreen';
+import { GenerateNavigator } from './screens/GenerateNavigator';
 import { HomeScreen } from "./screens/HomeScreen";
+import { FileNavigator } from "./screens/FileNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -39,6 +40,17 @@ function TabNavigator() {
           tabBarLabel: "Generate",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="tree" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="From File"
+        component={FileNavigator}
+        options={{
+          headerShown: false,
+          tabBarLabel: "From File",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="home-variant-outline" color={color} size={size} />
           ),
         }}
       />
