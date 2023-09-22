@@ -8,6 +8,13 @@ export interface SolanaXnftInjection {
   signTransaction<T extends Transaction | VersionedTransaction>(tx: T): Promise<T>;
   signAllTransactions<T extends Transaction | VersionedTransaction>(txs: T[]): Promise<T[]>;
 }
+export type RootStackParamList = {
+  FileScreen: {};
+  GenerateScreen: {};
+  ResultsScreen: { prompt: string };
+  MintScreen: { imageUrl: string };
+  ShareScreen: { imageUrl: string };
+};
 
 export class XnftWallet implements Wallet {
   #xnftInjection: SolanaXnftInjection;

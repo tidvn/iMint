@@ -1,16 +1,10 @@
 import { Button, Text } from "react-native-paper";
 import { Buffer } from "buffer";
 import { useReducer } from "react";
-import {
-  createGenericFileFromBrowserFile,
-  generateSigner,
-  percentAmount,
-} from "@metaplex-foundation/umi";
-import {
-  createNft,
-  createV1,
-  TokenStandard,
-} from "@metaplex-foundation/mpl-token-metadata";
+import {VersionedTransaction } from "@solana/web3.js";
+
+import axios from "axios";
+const bs58 = require("bs58");
 // import { createUmi } from '@metaplex-foundation/umi-bundle-defaults';
 
 // const umi = createUmi('https://api.mainnet-beta.solana.com');
@@ -61,24 +55,49 @@ export function MintButton() {
     buttonLabel: "Mint This",
   });
   const handleMint = async () => {
-    // dispatch({ type: Status.MINTING });
-    //         window.xnft.solana
-    //           .signMessage(
-    //             Buffer.from(`The time is: ${new Date().toLocaleTimeString()}`)
-    //           )
-    //           .then((signature: Uint8Array) => {
-    //             dispatch({
-    //               type: Status.MINTED,
-    //               signature: Buffer.from(signature).toString("base64"),
-    //             });
-    //           })
-    //           .catch(() => {
-    //             dispatch({ type: Status.ERROR });
-    //           });
+    dispatch({ type: Status.MINTING });
 
-    // Upload image and JSON data.
-
-    const uri = "https://assets.meegos.io/bde8b57e5a53f2f1.json";
+    
+            // window.xnft.solana
+            //   .signMessage(
+            //     Buffer.from(`The time is: ${new Date().toLocaleTimeString()}`)
+            //   )
+            //   .then((signature: Uint8Array) => {
+            //     dispatch({
+            //       type: Status.MINTED,
+            //       signature: Buffer.from(signature).toString("base64"),
+            //     });
+            //   })
+            //   .catch(() => {
+            //     dispatch({ type: Status.ERROR });
+            //   });
+            const publicKey= window.xnft.solana.publicKey.toBase58()
+            const requestData = {
+              network: 'mainnet-beta',
+              metadata_uri:
+                'https://gateway.pinata.cloud/ipfs/QmYmUb5MHZwYovnQg9qANTJUi7R8VaE5CetfssczaSWn5K',
+              receiver: publicKey,
+            };
+          const response = await axios.post('https://imint.tdung.com/api/transaction', requestData,);
+          const encodedTransaction= response.data.encoded_transaction
+          // const recoveredTransaction = Transaction.from(
+          //   Buffer.from(encodedTransaction, 'base64')
+          // );
+          // const transaction = VersionedTransaction.deserialize(bs58.decode(encodedTransaction));
+          // console.log(encodedTransaction)
+          //  window.xnft.solana
+          //     .send(
+          //       transaction
+          //     )
+          //     .then((signature: Uint8Array) => {
+          //       dispatch({
+          //         type: Status.MINTED,
+          //         signature: Buffer.from(signature).toString("base64"),
+          //       });
+          //     })
+          //     .catch(() => {
+          //       dispatch({ type: Status.ERROR });
+          //     });
 
     // Create and mint NFT.
     // const mint = generateSigner(umi);
@@ -95,15 +114,14 @@ export function MintButton() {
   };
   return (
     <>
-      <Button
-        icon="plus"
-        mode="contained"
-        buttonColor={state.status === Status.ERROR ? "red" : undefined}
-        onPress={handleMint}
-        disabled={state.status === Status.MINTING}
-      >
+    <Button icon="check"
+     buttonColor={state.status === Status.ERROR ? "red" : undefined}
+      mode="contained" 
+      disabled={state.status === Status.MINTING}
+      onPress={handleMint}>
         {state.buttonLabel}
       </Button>
+      
       {state.status === Status.MINTED && <Text>{state.signature}</Text>}
     </>
   );
