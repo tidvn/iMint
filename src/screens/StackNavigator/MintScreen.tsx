@@ -42,7 +42,7 @@ export function MintScreen({
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            "x-api-key": "SdeplwOAeAzCOhEu"
+            "x-api-key": "L0UODCZRyl9JQ6sR"
           }
         }
       )
@@ -84,7 +84,7 @@ export function MintScreen({
         {
           headers: {
             "Content-Type": "application/json",
-            "x-api-key": "SdeplwOAeAzCOhEu"
+            "x-api-key": "L0UODCZRyl9JQ6sR"
           }
         }
       );

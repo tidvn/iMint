@@ -20,17 +20,18 @@ function generateRandomString(length: number) {  const characters = 'ABCDEFGHIJK
 
 const Stack = createStackNavigator<RootStackParamList>();
 function FileScreen({navigation}: NativeStackScreenProps<RootStackParamList, "FileScreen">) {
+  const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<any | null>(null);
   const handleFileInputChange = () => {
     const selectedFile = fileInputRef.current.files[0];
     if (selectedFile) {
       handleFileUpload(selectedFile)
-      // console.log(selectedFile);
     }
   };
 
   const handleFileUpload = async (selectedFile: any | Blob) => {
     try {
+      setLoading(true);
       const formData = new FormData();
 
       formData.append('file', selectedFile);
@@ -55,6 +56,8 @@ function FileScreen({navigation}: NativeStackScreenProps<RootStackParamList, "Fi
       }
     } catch (error) {
       console.log('Lỗi khi tải lên tệp:', error);
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -75,8 +78,8 @@ function FileScreen({navigation}: NativeStackScreenProps<RootStackParamList, "Fi
           ref={fileInputRef}
           onChange={handleFileInputChange}
         />
-        <Button icon="magic-staff" mode="contained" onPress={openFilePicker} >
-        Select Image
+        <Button loading={loading} icon="refresh" mode="contained" onPress={openFilePicker} disabled={loading} >
+        {(loading)?'Loading':'Select Image'}
       </Button>
     </View>
   );
