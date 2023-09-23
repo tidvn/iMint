@@ -104,17 +104,6 @@ export function MintButton() {
           //       dispatch({ type: Status.ERROR });
           //     });
 
-    // Create and mint NFT.
-    // const mint = generateSigner(umi);
-    // const sellerFeeBasisPoints = percentAmount(5.5, 2);
-    // await createNft(umi, {
-    //   mint,
-    //   name:"Test",
-    //   uri,
-    //   sellerFeeBasisPoints,
-    // }).sendAndConfirm(umi);
-
-    // // Return the mint address.
     // return mint.publicKey;
   };
   return (
