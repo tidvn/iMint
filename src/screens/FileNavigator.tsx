@@ -8,7 +8,8 @@ import { ResultsScreen } from "./StackNavigator/ResultsScreen";
 import { MintScreen } from "./StackNavigator/MintScreen";
 import { ShareScreen } from "./StackNavigator/ShareScreen";
 import axios from "axios";
-
+import FormData from 'form-data';
+import * as fs from 'fs';
 
 const Stack = createStackNavigator<RootStackParamList>();
 function FileScreen({navigation}: NativeStackScreenProps<RootStackParamList, "FileScreen">) {
@@ -24,21 +25,23 @@ function FileScreen({navigation}: NativeStackScreenProps<RootStackParamList, "Fi
   const handleFileUpload = async (selectedFile: any | Blob) => {
     try {
       const formData = new FormData();
-      formData.append('file', selectedFile);
 
+      formData.append('file', selectedFile);
+      
       const response = await axios.post(
-        'https://api.nft.storage/upload',
+        'https://api.shyft.to/sol/v1/storage/upload',
         formData,
         {
           headers: {
             'accept': 'application/json',
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDMzQTFkMEMzN0Y0MURBMzQzQWY3MzE0NUMwYzBhMGJmQkY5QTNiRTMiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY5NTIzMTgxMTAzMCwibmFtZSI6InRpZHZuIn0.T1XYEySDt6tQLm6Uh_Y4GFZNhwEvShXeNS8GeDbuF2Q',
-            'Content-Type': 'image/*'
+            'x-api-key': '4K7aiItHJ0EvuZqk',
+            'Content-Type': 'multipart/form-data'
           }
         }
       );
-        const uri = `https://${response.data.value.pin.cid}.ipfs.nftstorage.link/${response.data.value.files[0].name}`
-      console.log(uri);
+
+        // const uri = `https://${response.data.value.pin.cid}.ipfs.nftstorage.link/${response.data.value.files[0].name}`
+      console.log(response.data.result.uri);
     } catch (error) {
       console.log('Lỗi khi tải lên tệp:', error);
     }
