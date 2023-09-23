@@ -5,11 +5,6 @@ import { TextInput, Text, Button, IconButton } from "react-native-paper";
 import { RootStackParamList } from "../../types";
 import { MintButton } from "../../components/MintButton";
 import axios from "axios";
-
-
-
-
-
 export function MintScreen({
   route,
   navigation,
@@ -33,7 +28,7 @@ export function MintScreen({
     }
     setFields([...fields, newField]);
   }
-  const uploadImage = async (iurl:string) => {
+  const uploadImage = async (iurl: string) => {
     try {
       console.log(iurl)
 
@@ -77,7 +72,7 @@ export function MintScreen({
     setFields(updatedFields);
   }
 
-  const handleFinish = async () => {
+  const getMetadata = async () => {
     try {
       setLoading(true);
       const { uri } = await uploadImage(imageUrl);
@@ -87,9 +82,18 @@ export function MintScreen({
         "description": metadata.description,
         "image": uri,
         "attributes": fields,
-        "share": 0,
+        "share": 100,
         "creator": "9XNHHJDXixJzvwvT4ooFLfq1B1fW1815A1HuhksnGBtN",
+        "files": [
+          {
+            "uri": uri,
+            "type": "image/png"
+
+          },        
+        ],
+        "properties":{}
       }
+      body.properties = {files: body.files};
       console.log(body)
       const response = await axios.post(
         "https://api.shyft.to/sol/v1/metadata/create",
@@ -101,11 +105,7 @@ export function MintScreen({
           }
         }
       );
-
-      console.log(response);
-      // if (response.data.success) {
-      //   navigation.push("ShareScreen", {imageUrl: ""});
-      // }
+      return response.data.result.uri
     } catch (error) {
       console.error("Error mint nft:", error);
     } finally {
@@ -114,10 +114,10 @@ export function MintScreen({
   };
 
   return (<>
-    {loading ? (
+    {/* {loading ? (
       <Text>Loading...</Text>
-    ) : (
-      <View style={styles.container}>
+    ) : ( */}
+    <View style={styles.container}>
       <ScrollView
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false} // optional: hides the vertical scroll indicator
@@ -130,6 +130,7 @@ export function MintScreen({
           mode="outlined"
           label="Name"
           value={metadata.name}
+          disabled={loading}
           onChangeText={(e) => setMetadata({ ...metadata, name: e })}
         />
         <TextInput
@@ -139,6 +140,7 @@ export function MintScreen({
           numberOfLines={3}
           label="Description"
           value={metadata.description}
+          disabled={loading}
           onChangeText={(e) => setMetadata({ ...metadata, description: e })}
         />
         <TextInput
@@ -146,6 +148,7 @@ export function MintScreen({
           mode="outlined"
           label="Symbol"
           value={metadata.symbol}
+          disabled={loading}
           onChangeText={(e) => setMetadata({ ...metadata, symbol: e })}
         />
         <View>
@@ -156,6 +159,7 @@ export function MintScreen({
                   mode="outlined"
                   label="Trait type"
                   value={field.trait_type}
+                  disabled={loading}
                   onChangeText={(e) => handleFieldChange(index, 'trait_type', e)}
                 />
               </View>
@@ -164,29 +168,28 @@ export function MintScreen({
                   mode="outlined"
                   label="Value"
                   value={field.value}
+                  disabled={loading}
                   onChangeText={(e) => handleFieldChange(index, 'value', e)}
                 />
               </View>
               <View style={styles.deleteField} >
-                <IconButton 
-                iconColor="red"
-                onPress={() => deleteField(index)} 
-                icon="delete-outline" 
-                mode="outlined" />
+                <IconButton
+                  iconColor="red"
+                  onPress={() => deleteField(index)}
+                  icon="delete-outline"
+                  disabled={loading}
+                  mode="outlined" />
               </View>
             </View>
           ))}
         </View>
-        <Button style={{ marginBottom: 10}} icon="plus" mode="outlined" onPress={moreField}>
+        <Button disabled={loading} style={{ marginBottom: 10 }} icon="plus" mode="outlined" onPress={moreField}>
           Add more
         </Button>
-        <Button onPress={handleFinish}>
-          Check
-        </Button>
-        {/* <MintButton/> */}
-        </ScrollView>
-      </View>
-    )}
+        <MintButton getMetadata_uri={getMetadata} />
+      </ScrollView>
+    </View>
+    {/* )} */}
   </>);
 }
 const styles = StyleSheet.create({
@@ -220,6 +223,6 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   scrollContainer: {
-    flexGrow: 1, 
+    flexGrow: 1,
   },
 });
