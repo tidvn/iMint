@@ -13,7 +13,7 @@ export function ShareScreen({
   const handleShare = () => {};
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", padding: 16, alignItems: "center" }}>
+    <View style={{ flex: 1, padding: 16, alignItems: "center" }}>
       <Image source={{ uri: imageUrl }} style={{ width: 200, height: 200 }} />
 
       <Text style={{ marginBottom: 15 }} variant="headlineSmall">
