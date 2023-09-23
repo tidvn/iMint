@@ -24,7 +24,7 @@ export function ResultsScreen({
         prompt: prompt,
         style: "text2img"
         }
-        throw new Error("test")
+        // throw new Error("test")
       const response = await axios.post('https://imint.tdung.com/api/image', form,);
       const generatedImageUrl = response.data.imageUrl;
       setImageUrl(generatedImageUrl);
