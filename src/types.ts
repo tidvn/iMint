@@ -11,7 +11,7 @@ export interface SolanaXnftInjection {
 export type RootStackParamList = {
   FileScreen: {};
   GenerateScreen: {};
-  ResultsScreen: { prompt: string };
+  ResultsScreen: { prompt: string, style: string };
   MintScreen: { imageUrl: string };
   ShareScreen: { imageUrl: string };
 };
