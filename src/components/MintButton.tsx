@@ -1,7 +1,7 @@
 import { Button, Text } from "react-native-paper";
 import { Buffer } from "buffer";
 import { useReducer } from "react";
-import {VersionedTransaction } from "@solana/web3.js";
+import {Transaction, VersionedTransaction } from "@solana/web3.js";
 
 import axios from "axios";
 const bs58 = require("bs58");
@@ -88,10 +88,11 @@ export function MintButton() {
           //   Buffer.from(encodedTransaction, 'base64')
           // );
           // const transaction = VersionedTransaction.deserialize(bs58.decode(encodedTransaction));
+         
           // console.log(encodedTransaction)
           //  window.xnft.solana
           //     .send(
-          //       transaction
+          //       recoveredTransaction
           //     )
           //     .then((signature: Uint8Array) => {
           //       dispatch({
