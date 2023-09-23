@@ -56,21 +56,6 @@ export function MintButton() {
   });
   const handleMint = async () => {
     dispatch({ type: Status.MINTING });
-
-    
-            // window.xnft.solana
-            //   .signMessage(
-            //     Buffer.from(`The time is: ${new Date().toLocaleTimeString()}`)
-            //   )
-            //   .then((signature: Uint8Array) => {
-            //     dispatch({
-            //       type: Status.MINTED,
-            //       signature: Buffer.from(signature).toString("base64"),
-            //     });
-            //   })
-            //   .catch(() => {
-            //     dispatch({ type: Status.ERROR });
-            //   });
             const publicKey= window.xnft.solana.publicKey.toBase58()
             const requestData = {
               network: 'mainnet-beta',
@@ -78,14 +63,11 @@ export function MintButton() {
                 'https://gateway.pinata.cloud/ipfs/QmYmUb5MHZwYovnQg9qANTJUi7R8VaE5CetfssczaSWn5K',
               receiver: publicKey,
             };
-          const response = await axios.post('https://imint.tdung.com/api/transaction', requestData,);
+          const response = await axios.post('https://imint.tdung.com/api/transaction', requestData);
           const encodedTransaction= response.data.encoded_transaction
           const recoveredTransaction = Transaction.from(
             Buffer.from(encodedTransaction, 'base64')
           );
-          console.log(recoveredTransaction)
-          // const transaction = VersionedTransaction.deserialize(bs58.decode(encodedTransaction));
-          console.log(encodedTransaction)
            window.xnft.solana
               .send(
                 recoveredTransaction
@@ -100,17 +82,6 @@ export function MintButton() {
                 dispatch({ type: Status.ERROR });
               });
 
-    // Create and mint NFT.
-    // const mint = generateSigner(umi);
-    // const sellerFeeBasisPoints = percentAmount(5.5, 2);
-    // await createNft(umi, {
-    //   mint,
-    //   name:"Test",
-    //   uri,
-    //   sellerFeeBasisPoints,
-    // }).sendAndConfirm(umi);
-
-    // // Return the mint address.
     // return mint.publicKey;
   };
   return (
