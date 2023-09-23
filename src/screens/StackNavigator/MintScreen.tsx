@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Image } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { TextInput, Text } from "react-native-paper";
+import { TextInput, Text, Button } from "react-native-paper";
 import { RootStackParamList } from "../../types";
 import { MintButton } from "../../components/MintButton";
 import axios from "axios";
@@ -21,6 +21,9 @@ export function MintScreen({
     description: "",
     tag: "",
   });
+  const handleGenerateText = () => {
+    navigation.push("ShareScreen",{imageUrl});
+  };
   const uploadImage = async () => {
     try {
       const blob = await axios.get(imageUrl, { responseType: 'arraybuffer' })
@@ -128,7 +131,10 @@ export function MintScreen({
           value={metadata.tag}
           onChangeText={(e) => setMetadata({ ...metadata, tag: e })}
         />
-        <MintButton/>
+          <Button icon="magic-staff" mode="contained" onPress={handleGenerateText}>
+            Generate
+          </Button>
+        {/* <MintButton/> */}
       </View>
     )}
   </>);
