@@ -13,17 +13,18 @@ import * as fs from 'fs';
 
 const Stack = createStackNavigator<RootStackParamList>();
 function FileScreen({navigation}: NativeStackScreenProps<RootStackParamList, "FileScreen">) {
+  const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<any | null>(null);
   const handleFileInputChange = () => {
     const selectedFile = fileInputRef.current.files[0];
     if (selectedFile) {
       handleFileUpload(selectedFile)
-      // console.log(selectedFile);
     }
   };
 
   const handleFileUpload = async (selectedFile: any | Blob) => {
     try {
+      setLoading(true);
       const formData = new FormData();
 
       formData.append('file', selectedFile);
@@ -41,9 +42,11 @@ function FileScreen({navigation}: NativeStackScreenProps<RootStackParamList, "Fi
       );
 
         // const uri = `https://${response.data.value.pin.cid}.ipfs.nftstorage.link/${response.data.value.files[0].name}`
-      console.log(response.data.result.uri);
+      console.log(response);
     } catch (error) {
       console.log('Lỗi khi tải lên tệp:', error);
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -64,7 +67,7 @@ function FileScreen({navigation}: NativeStackScreenProps<RootStackParamList, "Fi
           ref={fileInputRef}
           onChange={handleFileInputChange}
         />
-        <Button icon="magic-staff" mode="contained" onPress={openFilePicker} >
+        <Button loading={loading} icon="refresh" mode="contained" onPress={openFilePicker} disabled={loading} >
         Select Image
       </Button>
     </View>
