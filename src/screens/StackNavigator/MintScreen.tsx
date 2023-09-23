@@ -100,7 +100,7 @@ export function MintScreen({
     {loading ? (
       <Text>Loading...</Text>
     ) : (
-      <View style={{ flex: 1, justifyContent: "center", padding: 16 }}>
+      <View style={{ flex: 1, padding: 16 }}>
         <View style={{ alignItems: "center" }}>
           <Image source={{ uri: imageUrl }} style={{ width: 150, height: 150 }} />
           <Text variant="titleMedium">Provide information to complete</Text>

@@ -54,14 +54,14 @@ function FileScreen({navigation}: NativeStackScreenProps<RootStackParamList, "Fi
 
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", padding: 16 }}>
+    <View style={{ flex: 1, padding: 16 }}>
       <input
           type="file"
           style={{ display: 'none' }}
           ref={fileInputRef}
           onChange={handleFileInputChange}
         />
-        <Button icon="magic-staff" mode="contained" onClick={openFilePicker} style={{ cursor: 'pointer' }} >
+        <Button icon="magic-staff" mode="contained" onPress={openFilePicker} >
         Select Image
       </Button>
     </View>
