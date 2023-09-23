@@ -11,19 +11,27 @@ import axios from "axios";
 import FormData from 'form-data';
 import * as fs from 'fs';
 
+function generateRandomString(length: number) {  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  for (let i = 0; i < length; i++) {    const randomIndex = Math.floor(Math.random() * characters.length);
+    result += characters.charAt(randomIndex);  }
+  return result;
+} 
+
 const Stack = createStackNavigator<RootStackParamList>();
 function FileScreen({navigation}: NativeStackScreenProps<RootStackParamList, "FileScreen">) {
+  const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<any | null>(null);
   const handleFileInputChange = () => {
     const selectedFile = fileInputRef.current.files[0];
     if (selectedFile) {
       handleFileUpload(selectedFile)
-      // console.log(selectedFile);
     }
   };
 
   const handleFileUpload = async (selectedFile: any | Blob) => {
     try {
+      setLoading(true);
       const formData = new FormData();
 
       formData.append('file', selectedFile);
@@ -34,16 +42,22 @@ function FileScreen({navigation}: NativeStackScreenProps<RootStackParamList, "Fi
         {
           headers: {
             'accept': 'application/json',
-            'x-api-key': '4K7aiItHJ0EvuZqk',
+            'x-api-key': 'L0UODCZRyl9JQ6sR',
             'Content-Type': 'multipart/form-data'
           }
         }
       );
 
         // const uri = `https://${response.data.value.pin.cid}.ipfs.nftstorage.link/${response.data.value.files[0].name}`
-      console.log(response.data.result.uri);
+        const uri = response.data.result.uri;
+        console.log(uri);
+      if (uri){
+        navigation.push("MintScreen",{imageUrl: uri});
+      }
     } catch (error) {
       console.log('Lỗi khi tải lên tệp:', error);
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -64,8 +78,8 @@ function FileScreen({navigation}: NativeStackScreenProps<RootStackParamList, "Fi
           ref={fileInputRef}
           onChange={handleFileInputChange}
         />
-        <Button icon="magic-staff" mode="contained" onPress={openFilePicker} >
-        Select Image
+        <Button loading={loading} icon="refresh" mode="contained" onPress={openFilePicker} disabled={loading} >
+        {(loading)?'Loading':'Select Image'}
       </Button>
     </View>
   );

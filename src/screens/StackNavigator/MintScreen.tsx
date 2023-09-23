@@ -87,7 +87,7 @@ export function MintScreen({
         "description": metadata.description,
         "image": uri,
         "attributes": fields,
-        "share": 100,
+        "share": 0,
         "creator": "9XNHHJDXixJzvwvT4ooFLfq1B1fW1815A1HuhksnGBtN",
       }
       console.log(body)

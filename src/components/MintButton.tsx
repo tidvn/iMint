@@ -55,32 +55,54 @@ export function MintButton() {
     buttonLabel: "Mint This",
   });
   const handleMint = async () => {
-    dispatch({ type: Status.MINTING });
-            const publicKey= window.xnft.solana.publicKey.toBase58()
-            const requestData = {
-              network: 'mainnet-beta',
-              metadata_uri:
-                'https://gateway.pinata.cloud/ipfs/QmYmUb5MHZwYovnQg9qANTJUi7R8VaE5CetfssczaSWn5K',
-              receiver: publicKey,
-            };
-          const response = await axios.post('https://imint.tdung.com/api/transaction', requestData);
-          const encodedTransaction= response.data.encoded_transaction
-          const recoveredTransaction = Transaction.from(
-            Buffer.from(encodedTransaction, 'base64')
-          );
-           window.xnft.solana
-              .send(
-                recoveredTransaction
-              )
-              .then((signature: Uint8Array) => {
-                dispatch({
-                  type: Status.MINTED,
-                  signature: Buffer.from(signature).toString("base64"),
-                });
-              })
-              .catch(() => {
-                dispatch({ type: Status.ERROR });
-              });
+    // dispatch({ type: Status.MINTING });
+    dispatch({ type: Status.MINTED,signature:'signature' });
+    
+            // window.xnft.solana
+            //   .signMessage(
+            //     Buffer.from(`The time is: ${new Date().toLocaleTimeString()}`)
+            //   )
+            //   .then((signature: Uint8Array) => {
+            //     dispatch({
+            //       type: Status.MINTED,
+            //       signature: Buffer.from(signature).toString("base64"),
+            //     });
+            //   })
+            //   .catch(() => {
+            //     dispatch({ type: Status.ERROR });
+            //   });
+
+
+          //   const publicKey= window.xnft.solana.publicKey.toBase58()
+          //   const requestData = {
+          //     network: 'mainnet-beta',
+          //     metadata_uri:
+          //       'https://gateway.pinata.cloud/ipfs/QmYmUb5MHZwYovnQg9qANTJUi7R8VaE5CetfssczaSWn5K',
+          //     receiver: publicKey,
+          //   };
+          // const response = await axios.post('https://imint.tdung.com/api/transaction', requestData,);
+          // const encodedTransaction= response.data.encoded_transaction
+
+
+          // const recoveredTransaction = Transaction.from(
+          //   Buffer.from(encodedTransaction, 'base64')
+          // );
+          // const transaction = VersionedTransaction.deserialize(bs58.decode(encodedTransaction));
+         
+          // console.log(encodedTransaction)
+          //  window.xnft.solana
+          //     .send(
+          //       recoveredTransaction
+          //     )
+          //     .then((signature: Uint8Array) => {
+          //       dispatch({
+          //         type: Status.MINTED,
+          //         signature: Buffer.from(signature).toString("base64"),
+          //       });
+          //     })
+          //     .catch(() => {
+          //       dispatch({ type: Status.ERROR });
+          //     });
 
     // return mint.publicKey;
   };
@@ -89,7 +111,7 @@ export function MintButton() {
     <Button icon="check"
      buttonColor={state.status === Status.ERROR ? "red" : undefined}
       mode="contained" 
-      disabled={state.status === Status.MINTING}
+      disabled={state.status === Status.MINTED}
       onPress={handleMint}>
         {state.buttonLabel}
       </Button>
