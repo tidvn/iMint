@@ -32,13 +32,13 @@ function FileScreen({navigation}: NativeStackScreenProps<RootStackParamList, "Fi
         {
           headers: {
             'accept': 'application/json',
-            'Authorization': 'Bearer WyIweDNkYThkMjk1MDQ4ZjM1MGJjNWIyNzJlNDQ0MGU0NmNjMWI5NTk1MDlmODA1NjVhZDE3OWRhYmJiZTk4MjQ5YTUxNDgxNDMyMDkwNzEzNDcyOTQxMTc0MWU0MGUxMDlmMWI5MDE3M2ZmMDM2ZDJiOGNhN2E1MjJhM2UyMDY2ZmQ4MWIiLCJ7XCJpYXRcIjoxNjk1NDMxMTUxLFwiZXh0XCI6MTY5NTQzODM1MSxcImlzc1wiOlwiZGlkOmV0aHI6MHgzM0ExZDBDMzdGNDFEQTM0M0FmNzMxNDVDMGMwYTBiZkJGOUEzYkUzXCIsXCJzdWJcIjpcIlhQeDBzQmN3SEQ2R3hnSVkxU05xWFFIZGxxNnNxQ2g5ajZnNGN5OWRxSG89XCIsXCJhdWRcIjpcIlpvYmw1QzJHRWVvT1dudXdpb0RURDRBSnd1NlhFTW5WSEttWjZWOFZZLUU9XCIsXCJuYmZcIjoxNjk1NDMxMTUxLFwidGlkXCI6XCI2YjljNWJkZC03YWNkLTRlZjctOGI1NC00MDQyNTBiNDJhZmFcIixcImFkZFwiOlwiMHg2MjNlZDNiMjFmNTQ2OWM0NjRhYTJiZjI5MTRkNjU0M2RkNDlmNzExNjliYjdlNDY3MDNkZGZkM2RlMzQ1NzZhMzc2OWJhNmE5NWQ2NjQxMjdiMTFhNjRjNDk0NGFiYzNhMjgyOGFhZjBkZjViNjZiYjQ2YzIzNGZmMjIwOWRmZjFiXCJ9Il0=',
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDMzQTFkMEMzN0Y0MURBMzQzQWY3MzE0NUMwYzBhMGJmQkY5QTNiRTMiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY5NTIzMTgxMTAzMCwibmFtZSI6InRpZHZuIn0.T1XYEySDt6tQLm6Uh_Y4GFZNhwEvShXeNS8GeDbuF2Q',
             'Content-Type': 'image/*'
           }
         }
       );
-
-      console.log(response);
+        const uri = `https://${response.data.value.pin.cid}.ipfs.nftstorage.link/${response.data.value.files[0].name}`
+      console.log(uri);
     } catch (error) {
       console.log('Lỗi khi tải lên tệp:', error);
     }
@@ -54,14 +54,14 @@ function FileScreen({navigation}: NativeStackScreenProps<RootStackParamList, "Fi
 
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", padding: 16 }}>
+    <View style={{ flex: 1, padding: 16 }}>
       <input
           type="file"
           style={{ display: 'none' }}
           ref={fileInputRef}
           onChange={handleFileInputChange}
         />
-        <Button icon="magic-staff" mode="contained" onClick={openFilePicker} style={{ cursor: 'pointer' }} >
+        <Button icon="magic-staff" mode="contained" onPress={openFilePicker} >
         Select Image
       </Button>
     </View>

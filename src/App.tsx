@@ -16,7 +16,7 @@ function TabNavigator() {
   return (
     
     <Tab.Navigator
-      initialRouteName="Generate"
+      initialRouteName="Home"
       screenOptions={{
         tabBarActiveTintColor: "#e91e63",
       }}
