@@ -1,7 +1,7 @@
 import { Button, Text } from "react-native-paper";
 import { Buffer } from "buffer";
 import { useReducer } from "react";
-import {VersionedTransaction } from "@solana/web3.js";
+import {Transaction, VersionedTransaction } from "@solana/web3.js";
 
 import axios from "axios";
 const bs58 = require("bs58");
@@ -80,24 +80,25 @@ export function MintButton() {
             };
           const response = await axios.post('https://imint.tdung.com/api/transaction', requestData,);
           const encodedTransaction= response.data.encoded_transaction
-          // const recoveredTransaction = Transaction.from(
-          //   Buffer.from(encodedTransaction, 'base64')
-          // );
+          const recoveredTransaction = Transaction.from(
+            Buffer.from(encodedTransaction, 'base64')
+          );
+          console.log(recoveredTransaction)
           // const transaction = VersionedTransaction.deserialize(bs58.decode(encodedTransaction));
-          // console.log(encodedTransaction)
-          //  window.xnft.solana
-          //     .send(
-          //       transaction
-          //     )
-          //     .then((signature: Uint8Array) => {
-          //       dispatch({
-          //         type: Status.MINTED,
-          //         signature: Buffer.from(signature).toString("base64"),
-          //       });
-          //     })
-          //     .catch(() => {
-          //       dispatch({ type: Status.ERROR });
-          //     });
+          console.log(encodedTransaction)
+           window.xnft.solana
+              .send(
+                recoveredTransaction
+              )
+              .then((signature: Uint8Array) => {
+                dispatch({
+                  type: Status.MINTED,
+                  signature: Buffer.from(signature).toString("base64"),
+                });
+              })
+              .catch(() => {
+                dispatch({ type: Status.ERROR });
+              });
 
     // Create and mint NFT.
     // const mint = generateSigner(umi);
