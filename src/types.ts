@@ -13,9 +13,28 @@ export type RootStackParamList = {
   GenerateScreen: {};
   ResultsScreen: { prompt: string, style: string };
   MintScreen: { imageUrl: string };
-  ShareScreen: { imageUrl: string };
+  ShareScreen: { imageUrl: string,signature:any,network:string };
+};
+export enum Status {
+  IDLE,
+  CREATE_METADATA,
+  CREATE_TRANSACTION,
+  MINTING,
+  MINTED,
+  ERROR,
+}
+export type State = {
+  status: Status;
+  buttonLabel: string;
+  signature?: string;
 };
 
+export type Action =
+  | { type: Status.CREATE_METADATA }
+  | { type: Status.CREATE_TRANSACTION }
+  | { type: Status.MINTING }
+  | { type: Status.MINTED; signature: string }
+  | { type: Status.ERROR };
 export class XnftWallet implements Wallet {
   #xnftInjection: SolanaXnftInjection;
 

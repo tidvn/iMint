@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Image, ScrollView } from "react-native";
+import { StyleSheet, View, Image, ScrollView, ActivityIndicator } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { TextInput, Text, Button, IconButton } from "react-native-paper";
 import { RootStackParamList } from "../../types";
 import { MintButton } from "../../components/MintButton";
 import axios from "axios";
+
 export function MintScreen({
   route,
   navigation,
@@ -14,13 +15,18 @@ export function MintScreen({
     trait_type: string;
     value: string;
   }
-  const [loading, setLoading] = useState<boolean>(false);
+
+  const  [state, setState] = useState<String>("");
   const [metadata, setMetadata] = useState({
     name: "",
     description: "",
     symbol: "",
   });
-  const [fields, setFields] = useState<Field[]>([]);
+  const [fields, setFields] = useState<Field[]>([{
+    trait_type :"event",
+    value:"Solana Consumer Hack 08" 
+     }]);
+
   const moreField = () => {
     let newField: Field = {
       trait_type: "",
@@ -73,8 +79,8 @@ export function MintScreen({
   }
 
   const getMetadata = async () => {
+    
     try {
-      setLoading(true);
       const { uri } = await uploadImage(imageUrl);
       let body = {
         "name": metadata.name,
@@ -88,13 +94,11 @@ export function MintScreen({
           {
             "uri": uri,
             "type": "image/png"
-
-          },        
+          },
         ],
-        "properties":{}
+        "properties": {}
       }
-      body.properties = {files: body.files};
-      console.log(body)
+      body.properties = { files: body.files };
       const response = await axios.post(
         "https://api.shyft.to/sol/v1/metadata/create",
         body,
@@ -108,39 +112,45 @@ export function MintScreen({
       return response.data.result.uri
     } catch (error) {
       console.error("Error mint nft:", error);
-    } finally {
-      setLoading(false);
     }
   };
-
+  const handleNext = (signature: string,network:string) => {
+    navigation.push("ShareScreen",{ imageUrl: imageUrl,signature: signature ,network:network} );
+    console.log(signature)
+  };
+const validate=()=>{
+  return metadata.name !="" && metadata.description !="" && metadata.symbol !="";
+}
   return (<>
-    {/* {loading ? (
-      <Text>Loading...</Text>
-    ) : ( */}
+    {state != "" ? (
+      <View style={styles.loadingContainer}>
+      <ActivityIndicator size="large" color="#007AFF" />
+      <Text style={styles.loadingText}>{state}</Text>
+    </View>
+    ) : (
     <View style={styles.container}>
       <ScrollView
         contentContainerStyle={styles.scrollContainer}
-        showsVerticalScrollIndicator={false} // optional: hides the vertical scroll indicator
-      >       <View style={{ alignItems: "center" }}>
-          <Image source={{ uri: imageUrl }} style={{ width: 150, height: 150 }} />
-          <Text variant="titleMedium">Provide information to complete</Text>
+        showsVerticalScrollIndicator={false}>
+        <View style={{ alignItems: "center" }}>
+          <Image source={{ uri: imageUrl }} style={{ width: 120, height: 120 }} />
         </View>
         <TextInput
           style={{ marginBottom: 10, marginTop: 5 }}
           mode="outlined"
           label="Name"
           value={metadata.name}
-          disabled={loading}
+          
           onChangeText={(e) => setMetadata({ ...metadata, name: e })}
         />
         <TextInput
           style={{ marginBottom: 10 }}
           mode="outlined"
           multiline
-          numberOfLines={3}
+          numberOfLines={2}
           label="Description"
           value={metadata.description}
-          disabled={loading}
+          
           onChangeText={(e) => setMetadata({ ...metadata, description: e })}
         />
         <TextInput
@@ -148,7 +158,7 @@ export function MintScreen({
           mode="outlined"
           label="Symbol"
           value={metadata.symbol}
-          disabled={loading}
+          
           onChangeText={(e) => setMetadata({ ...metadata, symbol: e })}
         />
         <View>
@@ -157,9 +167,9 @@ export function MintScreen({
               <View style={styles.fieldKey}>
                 <TextInput
                   mode="outlined"
-                  label="Trait type"
+                  label="Attributes"
                   value={field.trait_type}
-                  disabled={loading}
+                  
                   onChangeText={(e) => handleFieldChange(index, 'trait_type', e)}
                 />
               </View>
@@ -168,7 +178,7 @@ export function MintScreen({
                   mode="outlined"
                   label="Value"
                   value={field.value}
-                  disabled={loading}
+                  
                   onChangeText={(e) => handleFieldChange(index, 'value', e)}
                 />
               </View>
@@ -177,22 +187,34 @@ export function MintScreen({
                   iconColor="red"
                   onPress={() => deleteField(index)}
                   icon="delete-outline"
-                  disabled={loading}
+                  
                   mode="outlined" />
               </View>
             </View>
           ))}
         </View>
-        <Button disabled={loading} style={{ marginBottom: 10 }} icon="plus" mode="outlined" onPress={moreField}>
+        <Button  style={{ marginBottom: 10 }} icon="plus" mode="outlined" onPress={moreField}>
           Add more
         </Button>
-        <MintButton getMetadata_uri={getMetadata} />
+        <MintButton validate={validate} getMetadata_uri={getMetadata} setState={setState} nextShare={handleNext}/>
       </ScrollView>
     </View>
-    {/* )} */}
+     )} 
   </>);
 }
 const styles = StyleSheet.create({
+  loadingContainer: { 
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center" },
+  loadingText: {
+    marginTop: 10,
+    fontSize: 16,
+  },
+  loadedText: {
+    fontSize: 18,
+    color: 'green',
+  },
   fieldWrap: {
     display: "flex",
     marginBottom: 15,
