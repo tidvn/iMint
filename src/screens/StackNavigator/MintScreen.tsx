@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { View, Image } from "react-native";
+import { StyleSheet, View, Image } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { TextInput, Text } from "react-native-paper";
+import { TextInput, Text, Button, IconButton } from "react-native-paper";
 import { RootStackParamList } from "../../types";
 import { MintButton } from "../../components/MintButton";
 import axios from "axios";
@@ -15,12 +15,37 @@ export function MintScreen({
   navigation,
 }: NativeStackScreenProps<RootStackParamList, "MintScreen">) {
   const { imageUrl } = route.params;
+  interface Field {
+    key: string;
+    value: string;
+  }
   const [loading, setLoading] = useState<boolean>(false);
   const [metadata, setMetadata] = useState({
     name: "",
     description: "",
-    tag: "",
+    symbol: "",
   });
+  const [fields, setFields] = useState<Field[]>([]);
+  const moreField = () => {
+    let newField: Field = {
+      key: "",
+      value: "",
+    }
+    setFields([...fields, newField]);
+  }
+  const handleFieldChange = (index: number, fieldName: string, fieldValue: string) => {
+    const updatedFields = [...fields];
+    updatedFields[index] = {
+      ...updatedFields[index],
+      [fieldName]: fieldValue,
+    };
+    setFields(updatedFields);
+  };
+  const deleteField = (index: number) => {
+    const updatedFields = [...fields];
+    updatedFields.splice(index, 1)
+    setFields(updatedFields);
+  }
   const uploadImage = async () => {
     try {
       const blob = await axios.get(imageUrl, { responseType: 'arraybuffer' })
@@ -53,12 +78,13 @@ export function MintScreen({
     try {
       setLoading(true);
       const { uri } = await uploadImage();
+      let attributes = JSON.stringify(fields)
       let body = {
         "name": metadata.name,
-        "symbol": "IMint",
+        "symbol": metadata.symbol,
         "description": metadata.description,
         "image": uri,
-        "attributes": [],
+        "attributes": attributes,
         "royalty": 5,
         "creator": "BvzKvn6nUUAYtKu2pH3h5SbUkUNcRPQawg4bURBiojJx",
         "share": 100,
@@ -124,12 +150,71 @@ export function MintScreen({
         <TextInput
           style={{ marginBottom: 15 }}
           mode="outlined"
-          label="Tag"
-          value={metadata.tag}
-          onChangeText={(e) => setMetadata({ ...metadata, tag: e })}
+          label="Symbol"
+          value={metadata.symbol}
+          onChangeText={(e) => setMetadata({ ...metadata, symbol: e })}
         />
+        <View>
+          {fields.map((field, index) => (
+            <View key={index} style={styles.fieldWrap}>
+              <View style={styles.fieldKey}>
+                <TextInput
+                  mode="outlined"
+                  label="Key"
+                  value={field.key}
+                  onChangeText={(e) => handleFieldChange(index, 'key', e)}
+                />
+              </View>
+              <View style={styles.fieldValue}>
+                <TextInput
+                  mode="outlined"
+                  label="Value"
+                  value={field.value}
+                  onChangeText={(e) => handleFieldChange(index, 'value', e)}
+                />
+              </View>
+              <View style={styles.deleteField} >
+                <IconButton 
+                iconColor="red"
+                onPress={() => deleteField(index)} 
+                icon="delete-outline" 
+                mode="outlined" />
+              </View>
+            </View>
+          ))}
+        </View>
+        <Button style={{ marginBottom: 10}} icon="plus" mode="outlined" onPress={moreField}>
+          Add more
+        </Button>
         <MintButton/>
       </View>
     )}
   </>);
 }
+const styles = StyleSheet.create({
+  fieldWrap: {
+    display: "flex",
+    marginBottom: 15,
+    marginStart: -6,
+    marginEnd: -6,
+    flexDirection: "row"
+  },
+  fieldKey: {
+    paddingStart: 6,
+    paddingEnd: 6,
+    // width: "40%"
+    flex: 1
+  },
+  fieldValue: {
+    paddingStart: 6,
+    paddingEnd: 6,
+    // width: "40%"
+    flex: 1
+  },
+  deleteField: {
+    paddingStart: 6,
+    paddingEnd: 6,
+    alignItems: 'center',
+    marginTop: 4
+  }
+});
