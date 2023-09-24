@@ -7,8 +7,8 @@ Easy mint NFT with AI Generate image
     <img src="./assets/screen%20shot/photo_6089104809648044659_w.jpg" alt="..." width="250" style="margin: 0 10px;" />
     <img src="./assets/screen%20shot/photo_6089104809648044660_w.jpg" alt="..." width="250" style="margin: 0 10px;" />
     <img src="./assets/screen%20shot/photo_6089104809648044663_w.jpg" alt="..." width="250" style="margin: 0 10px;" />
-    <img src="./assets/screen%20shot/photo_6089104809648044667_w.jpg" alt="..." width="250" style="margin: 0 10px;" />
 </div>
+<img src="./assets/screen%20shot/photo_6089104809648044667_w.jpg" alt="..." style="margin: 0 10px;" />
 
 
 ### Install
