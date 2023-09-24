@@ -12,6 +12,5 @@ Easy mint NFT with AI Generate image
 
 
 
-## Description
-Easy Mint NFT With AI Generate Image
-
+## Link
+[XNFT.GG](https://www.xnft.gg/app/CFVup2etuRCKqm2h4ncZGjiWaJ8juRTQDi2gr39AtX5H)https://www.xnft.gg/app/CFVup2etuRCKqm2h4ncZGjiWaJ8juRTQDi2gr39AtX5H
