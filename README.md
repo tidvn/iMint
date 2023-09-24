@@ -2,6 +2,13 @@
 
 Easy mint NFT with AI Generate image
 
+### Screen Shot
+
+![Alt text](./assets/screen%20shot/photo_6089104809648044659_w.jpg)
+![Alt text](./assets/screen%20shot/photo_6089104809648044660_w.jpg)
+![Alt text](./assets/screen%20shot/photo_6089104809648044663_w.jpg)
+![Alt text](./assets/screen%20shot/photo_6089104809648044667_w.jpg)
+
 ### Install
 
 First, install dependencies.
