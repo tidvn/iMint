@@ -21,7 +21,7 @@ export function MintButton(props: any) {
 
     const publicKey = window.xnft.solana.publicKey.toBase58()
     const requestData = {
-      network: 'devnet',
+      network: 'mainnet-beta',
       metadata_uri: metadata_uri,
       receiver: publicKey,
     };

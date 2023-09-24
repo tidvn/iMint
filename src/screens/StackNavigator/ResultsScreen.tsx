@@ -48,8 +48,11 @@ export function ResultsScreen({
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      {loading ? (
+      {loading ? (<>
         <ActivityIndicator size="large" color="#007AFF" />
+        <Text>Generate Image ...</Text>
+        </>
+
       ) : (
         <>{result ? (
           <Image
