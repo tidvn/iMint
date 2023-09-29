@@ -11,6 +11,6 @@ npm-debug.*
 web-build/
 .xnft-bundle/
 xnft-bundle.zip
-
+*.zip
 # macOS
 .DS_Store
