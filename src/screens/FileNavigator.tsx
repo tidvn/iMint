@@ -10,48 +10,22 @@ import { ShareScreen } from "./StackNavigator/ShareScreen";
 import axios from "axios";
 import FormData from 'form-data';
 import * as fs from 'fs';
+import { uploadImageFromFile } from "../function";
 
 
 const Stack = createStackNavigator<RootStackParamList>();
 function FileScreen({navigation}: NativeStackScreenProps<RootStackParamList, "FileScreen">) {
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<any | null>(null);
-  const handleFileInputChange = () => {
+  const handleFileInputChange = async () => {
     const selectedFile = fileInputRef.current.files[0];
     if (selectedFile) {
-      handleFileUpload(selectedFile)
+      setLoading(true)
+      const uri = await uploadImageFromFile(selectedFile);
+      setLoading(false)
+      if (uri) navigation.push("MintScreen", { imageUrl: uri });      
     }
   };
-
-  const handleFileUpload = async (selectedFile: any | Blob) => {
-    try {
-      setLoading(true);
-      const formData = new FormData();
-      formData.append('file', selectedFile);
-      
-      const response = await axios.post(
-        'https://api.shyft.to/sol/v1/storage/upload',
-        formData,
-        {
-          headers: {
-            'accept': 'application/json',
-            'x-api-key': 'L0UODCZRyl9JQ6sR',
-            'Content-Type': 'multipart/form-data'
-          }
-        }
-      );
-        const uri = response.data.result.uri;
-      if (uri){
-        navigation.push("MintScreen",{imageUrl: uri});
-      }
-    } catch (error) {
-      console.log('Lỗi khi tải lên tệp:', error);
-    }finally{
-      setLoading(false);
-    }
-  };
-
-
   const openFilePicker = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();

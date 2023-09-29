@@ -4,6 +4,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Text, Button } from "react-native-paper";
 import { RootStackParamList } from "../../types";
 import axios from "axios";
+import { generateImage } from "../../function";
 
 export function ResultsScreen({
   route,
@@ -14,20 +15,14 @@ export function ResultsScreen({
   };
 
   const { prompt, style } = route.params;
-  const [imageUrl, setImageUrl] = useState<string>(""); // Lưu trữ đường dẫn hình ảnh
+  const [imageUrl, setImageUrl] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [result, setResult] = useState<boolean>(false);
   const fetchData = async () => {
     try {
       setLoading(true);
-      const form = {
-        prompt: prompt,
-        style: style + "-generator"
-      }
-
-      const response = await axios.post('https://imint.tdung.com/api/image', form);
+      const response = await generateImage(prompt, style + "-generator")
       const generatedImageUrl = response.data.imageUrl;
-      // const generatedImageUrl = "https://api.deepai.org/job-view-file/6019db37-85b0-47c2-b152-50ac542af253/outputs/output.jpg"
       setImageUrl(generatedImageUrl);
       setResult(true);
     } catch (error) {
@@ -51,7 +46,7 @@ export function ResultsScreen({
       {loading ? (<>
         <ActivityIndicator size="large" color="#007AFF" />
         <Text>Generate Image ...</Text>
-        </>
+      </>
 
       ) : (
         <>{result ? (
