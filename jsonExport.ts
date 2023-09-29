@@ -46,12 +46,11 @@ type AppBuildJson = {
     kind: 'app',
     storage: 'ipfs',
     name: "Ai Mint NFT",
-    version: "0.1.1" ,
+    version: "0.3.1" ,
     description: "Easy Mint NFT With AI Generate Image",
     website: "https://github.com/tidvn/iMint",
     installAuthority: "9XNHHJDXixJzvwvT4ooFLfq1B1fW1815A1HuhksnGBtN",
     price: 0 ,
-    supply: 100 ,
     tag: 'nfts',
     royaltiesPercentage: 5,
     contact: "https://github.com/tidvn/iMint",
@@ -61,10 +60,12 @@ type AppBuildJson = {
       }
     },
     icon: {
-      md: "./assets/cover.png"
+      md: "./assets/cover.jpg"
     },
     screenshots: [
-        "./assets/screenShot.png"
+        "./assets/Screenshot/photo_1.jpg",
+        "./assets/Screenshot/photo_2.jpg",
+        "./assets/Screenshot/photo_3.jpg"
       ],
   }
   const fs =require('fs')
